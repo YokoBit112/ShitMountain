@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\tools">
+      <UniqueIdentifier>{0b3a9722-9e74-418e-84b2-c7001beaf57b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\tools">
+      <UniqueIdentifier>{286082a1-8cde-4610-8071-a1a6ecec9812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\类">
+      <UniqueIdentifier>{13034dab-c9ba-4a5e-b438-b2f4bbd281dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\类方法">
+      <UniqueIdentifier>{556e98a0-f290-4293-979a-411787acca39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\类方法\DataManagerCTRL">
+      <UniqueIdentifier>{6b913bec-48e9-46dd-83fa-8daa8a1e65e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\类方法\ErrCTRL">
+      <UniqueIdentifier>{0e4440b2-e7ac-40a4-b3c5-f3af22e7e368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\类方法\ExpressCTRL">
+      <UniqueIdentifier>{508a91de-6b4c-463f-a50e-6cbfab075408}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileIO.h">
+      <Filter>头文件\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalDefine.h">
+      <Filter>头文件\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuUI.h">
+      <Filter>头文件\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Storage.h">
+      <Filter>头文件\类</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>头文件\类</Filter>
+    </ClInclude>
+    <ClInclude Include="Express.h">
+      <Filter>头文件\类</Filter>
+    </ClInclude>
+    <ClInclude Include="Abnormal.h">
+      <Filter>头文件\类</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>头文件\类</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>头文件\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Ctrl.h">
+      <Filter>头文件\tools</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpCtrl.cpp">
+      <Filter>源文件\类方法\DataManagerCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="UserCtrl.cpp">
+      <Filter>源文件\类方法\DataManagerCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="DatAreaCtrl.cpp">
+      <Filter>源文件\类方法\DataManagerCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrCtrl.cpp">
+      <Filter>源文件\类方法\DataManagerCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="SurRerollCtrl.cpp">
+      <Filter>源文件\类方法\DataManagerCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="Abnormal.cpp">
+      <Filter>源文件\类方法\ErrCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="EnumConverter.cpp">
+      <Filter>源文件\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Express.cpp">
+      <Filter>源文件\类方法\ExpressCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="FileIO.cpp">
+      <Filter>源文件\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobeConst.cpp">
+      <Filter>源文件\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>源文件\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Storage.cpp">
+      <Filter>源文件\类方法</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>源文件\类方法</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>源文件\tools</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
