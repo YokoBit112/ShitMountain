@@ -104,14 +104,14 @@
     <ClCompile Include="MenuUI.cpp">
       <Filter>源文件\tools</Filter>
     </ClCompile>
-    <ClCompile Include="Storage.cpp">
-      <Filter>源文件\类方法</Filter>
-    </ClCompile>
-    <ClCompile Include="User.cpp">
-      <Filter>源文件\类方法</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>源文件\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Storage.cpp">
+      <Filter>源文件\类方法\DataManagerCTRL</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>源文件\类方法\DataManagerCTRL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

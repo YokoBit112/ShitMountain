@@ -17,12 +17,12 @@ public:
     User(const std::string& p, const std::string& n);
 
     // Getter
-    std::string getPhone() const;
-    std::string getName() const;
-    std::list<std::string> getExpressHistory() const;
+    std::string getPhone() const;                       //获取取件人手机号
+    std::string getName() const;                        //获取取件人姓名
+    std::list<std::string> getExpressHistory() const;   //获取取件历史
 
     // Setter
-    void setName(const std::string& n);
+    void setName(const std::string& n);                 //设置取件人姓名
     // 添加取件记录
     void addExpressHistory(const std::string& expressId);
     // 清空取件记录

@@ -30,10 +30,10 @@ enum class HandleStatus {
 
 // 全局常量定义
 namespace GlobalConst {
-    extern const std::string ADMIN_DEFAULT_PWD;       // 管理员默认密码
-    extern const int EXPRESS_OVERDUE_DAYS;            // 快递逾期天数
-    extern const std::string PICK_CODE_PREFIX;        // 取件码前缀
-    extern const int PICK_CODE_RANDOM_LEN;            // 取件码随机数位数
+    extern std::string ADMIN_DEFAULT_PWD;       // 管理员默认密码
+    extern int EXPRESS_OVERDUE_DAYS;            // 快递逾期天数
+    extern  std::string PICK_CODE_PREFIX;        // 取件码前缀
+    extern  int PICK_CODE_RANDOM_LEN;            // 取件码随机数位数
     extern const float STORAGE_WARN_THRESHOLD;        // 存储区域预警阈值（90%）
 	extern const std::string DEFAULT_EXPRESS_PATH;    // 默认快递数据文件路径
 	extern const std::string DEFAULT_USER_PATH;	      // 默认用户数据文件路径

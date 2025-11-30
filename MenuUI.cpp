@@ -4,7 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <iomanip>
-
+using namespace std;
 // 显示主菜单
 void MenuUI::showMainMenu() {
     while (true) {
@@ -91,11 +91,10 @@ void MenuUI::showExpressManageMenu() {
         std::cout << "1. 快递入库" << std::endl;
         std::cout << "2. 快递出库" << std::endl;
         std::cout << "3. 快递查询" << std::endl;
-        std::cout << "4. 批量导入快递" << std::endl;
-        std::cout << "5. 返回上一级" << std::endl;
+        std::cout << "4. 返回上一级" << std::endl;
         std::cout << "==================================================" << std::endl;
 
-        int choice = inputIntWithCheck("请选择操作（1-5）：", 1, 5);
+        int choice = inputIntWithCheck("请选择操作（1-4）：", 1, 5);
         switch (choice) {
         case 1:
             handleExpressStockIn();
@@ -107,9 +106,6 @@ void MenuUI::showExpressManageMenu() {
             handleExpressQuery();
             break;
         case 4:
-            handleBulkExpressImport();
-            break;
-        case 5:
             return;
         }
     }
@@ -156,11 +152,10 @@ void MenuUI::showDataStatMenu() {
         std::cout << "2. 按日期统计" << std::endl;
         std::cout << "3. 按快递公司统计" << std::endl;
         std::cout << "4. 异常件统计" << std::endl;
-        std::cout << "5. 导出报表" << std::endl;
-        std::cout << "6. 返回上一级" << std::endl;
+        std::cout << "5. 返回上一级" << std::endl;
         std::cout << "========================================================" << std::endl;
 
-        int choice = inputIntWithCheck("请选择操作（1-6）：", 1, 6);
+        int choice = inputIntWithCheck("请选择操作（1-5）：", 1, 6);
         switch (choice) {
         case 1:
             showRealTimeStats();
@@ -175,9 +170,6 @@ void MenuUI::showDataStatMenu() {
             showAbnormalStats();
             break;
         case 5:
-            exportReport();
-            break;
-        case 6:
             return;
         }
     }
@@ -315,8 +307,6 @@ void MenuUI::clearScreen() {
     system("clear");
 #endif
 }
-
-// 以下是具体业务处理方法的空实现，实际项目中需要完善
 
 void MenuUI::handleExpressStockIn() {
     clearScreen();
@@ -516,16 +506,6 @@ void MenuUI::handleExpressQuery() {
     waitForKeyPress();
 }
 
-void MenuUI::handleBulkExpressImport() {
-    clearScreen();
-    std::cout << "==================== 批量导入快递 ====================" << std::endl;
-    std::string filePath = inputStrWithTrim("请输入导入文件路径：");
-
-    // 实际项目中应实现从文件批量导入的逻辑
-    showResultTip(true, "批量导入功能已触发，文件路径：" + filePath, "");
-
-    waitForKeyPress();
-}
 
 void MenuUI::markAbnormalExpress() {
     clearScreen();
@@ -538,33 +518,39 @@ void MenuUI::markAbnormalExpress() {
         waitForKeyPress();
         return;
     }
+    std::list<Abnormal> abnormals = dataManager.getAllAbnormalRecords();
 
-    std::cout << "1. 丢失" << std::endl;
-    std::cout << "2. 错发" << std::endl;
-    std::cout << "3. 逾期未取" << std::endl;
-    int typeChoice = inputIntWithCheck("请选择异常类型（1-3）：", 1, 3);
+    auto it = std::find_if(abnormals.begin(), abnormals.end(),
+        [&](const Abnormal& a) { return a.getExpressId() == expressId; });
 
-    AbnormalType type;
-    switch (typeChoice) {
-    case 1: type = AbnormalType::LOST; break;
-    case 2: type = AbnormalType::WRONG_DELIVER; break;
-    case 3: type = AbnormalType::OVERDUE; break;
-    default: type = AbnormalType::LOST;
+    if (it == abnormals.end()) {
+        std::cout << "1. 丢失" << std::endl;
+        std::cout << "2. 错发" << std::endl;
+        std::cout << "3. 逾期未取" << std::endl;
+        int typeChoice = inputIntWithCheck("请选择异常类型（1-3）：", 1, 3);
+
+        AbnormalType type;
+        switch (typeChoice) {
+        case 1: type = AbnormalType::LOST; break;
+        case 2: type = AbnormalType::WRONG_DELIVER; break;
+        case 3: type = AbnormalType::OVERDUE; break;
+        default: type = AbnormalType::LOST;
+        }
+
+        // 生成异常记录ID
+        std::string recordId = "AR" + Utils::getCurrentDate() + std::to_string(Utils::generateRandomInt(100, 999));
+
+        // 创建异常记录
+        Abnormal abnormal(recordId, expressId, type, Utils::getCurrentTimeStamp());
+
+        if (dataManager.addAbnormalRecord(abnormal)) {
+            showResultTip(true, "异常快递标记成功！记录ID：" + recordId, "");
+        }
+        else {
+            showResultTip(false, "", "异常快递标记失败！");
+        }
     }
-
-    // 生成异常记录ID
-    std::string recordId = "AR" + Utils::getCurrentDate() + std::to_string(Utils::generateRandomInt(100, 999));
-
-    // 创建异常记录
-    Abnormal abnormal(recordId, expressId, type, Utils::getCurrentTimeStamp());
-
-    if (dataManager.addAbnormalRecord(abnormal)) {
-        showResultTip(true, "异常快递标记成功！记录ID：" + recordId, "");
-    }
-    else {
-        showResultTip(false, "", "异常快递标记失败！");
-    }
-
+    else cout << "已标记，请返回" << endl;
     waitForKeyPress();
 }
 
@@ -599,13 +585,13 @@ void MenuUI::handleAbnormalExpress() {
     std::cout << "创建时间：" << abnormal.getCreateTime() << std::endl;
     std::cout << "当前状态：" << Utils::utf8ToGbk(abnormal.getHandleStatusString()) << std::endl;
 
-    std::string result = inputStrWithTrim("请输入处理结果：");
+    std::string result = inputStrWithTrim("输入1为已处理，回车键返回\n请输入处理结果:");
     if (Utils::isEmptyString(result)) {
-        showResultTip(false, "", "处理结果不能为空！");
+        showResultTip(false, "", "返回上一级");
         waitForKeyPress();
         return;
     }
-
+    result = "已处理";
     if (dataManager.updateAbnormalHandleResult(recordId, result)) {
         showResultTip(true, "异常记录处理完成！", "");
     }
@@ -859,6 +845,8 @@ void MenuUI::manageStorageAreas() {
     waitForKeyPress();
 }
 
+#include "GlobalDefine.h"
+
 void MenuUI::modifyPickCodeRule() {
     clearScreen();
     std::cout << "==================== 修改取件码规则 ====================" << std::endl;
@@ -874,7 +862,8 @@ void MenuUI::modifyPickCodeRule() {
 
     int newLen = inputIntWithCheck("请输入随机数位数（3-6）：", 3, 6);
 
-    // 实际项目中应实现修改取件码规则的逻辑
+    GlobalConst::PICK_CODE_PREFIX = newPrefix;
+    GlobalConst::PICK_CODE_RANDOM_LEN = newLen;
     showResultTip(true, "取件码规则修改成功！新规则：" + newPrefix + " + " + std::to_string(newLen) + "位随机数", "");
 
     waitForKeyPress();
@@ -887,7 +876,7 @@ void MenuUI::setOverdueDays() {
 
     int days = inputIntWithCheck("请输入新的逾期天数（3-30）：", 3, 30);
 
-    // 实际项目中应实现修改逾期天数的逻辑
+    GlobalConst::EXPRESS_OVERDUE_DAYS = days;
     showResultTip(true, "逾期天数设置成功！新的逾期天数：" + std::to_string(days) + "天", "");
 
     waitForKeyPress();
@@ -918,7 +907,7 @@ void MenuUI::changeAdminPassword() {
         return;
     }
 
-    // 实际项目中应实现修改密码的逻辑
+    GlobalConst::ADMIN_DEFAULT_PWD = newPwd;
     showResultTip(true, "管理员密码修改成功！请牢记新密码。", "");
 
     waitForKeyPress();
@@ -1016,17 +1005,48 @@ void MenuUI::submitAbnormalFeedback(const std::string& phone) {
     clearScreen();
     std::cout << "==================== 异常反馈 ====================" << std::endl;
 
-    std::string pickCode = inputStrWithTrim("请输入相关快递的取件码（如无可留空）：");
-    std::string feedback = inputStrWithTrim("请描述您遇到的问题：");
-
-    if (Utils::isEmptyString(feedback)) {
-        showResultTip(false, "", "反馈内容不能为空！");
+    std::string expressId = inputStrWithTrim("请输入快递单号：");
+    Express exp = dataManager.getExpressByExpressId(expressId);
+    if (exp.getExpressId().empty()) {
+        showResultTip(false, "", "未找到该快递单号！");
         waitForKeyPress();
         return;
     }
+    std::list<Abnormal> abnormals = dataManager.getAllAbnormalRecords();
 
-    // 实际项目中应实现异常反馈提交逻辑
-    showResultTip(true, "您的反馈已提交，管理员将尽快处理！", "");
+    auto it = std::find_if(abnormals.begin(), abnormals.end(),
+        [&](const Abnormal& a) { return a.getExpressId() == expressId; });
+
+    if (it == abnormals.end()) {
+        std::cout << "1. 丢失" << std::endl;
+        std::cout << "2. 错发" << std::endl;
+        std::cout << "3. 逾期未取" << std::endl;
+        int typeChoice = inputIntWithCheck("请选择异常类型（1-3）：", 1, 3);
+
+        AbnormalType type;
+        switch (typeChoice) {
+        case 1: type = AbnormalType::LOST; break;
+        case 2: type = AbnormalType::WRONG_DELIVER; break;
+        case 3: type = AbnormalType::OVERDUE; break;
+        default: type = AbnormalType::LOST;
+        }
+
+        // 生成异常记录ID
+        std::string recordId = "AR" + Utils::getCurrentDate() + std::to_string(Utils::generateRandomInt(100, 999));
+
+        // 创建异常记录
+        Abnormal abnormal(recordId, expressId, type, Utils::getCurrentTimeStamp());
+
+        if (dataManager.addAbnormalRecord(abnormal)) {
+            showResultTip(true, "异常快递标记成功！记录ID：" + recordId, "");
+        }
+        else {
+            showResultTip(false, "", "异常快递标记失败！");
+        }
+    }
+    else {
+        cout << "异常已汇报，请勿重复上报" << endl;
+    }
 
     waitForKeyPress();
 }

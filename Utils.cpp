@@ -8,7 +8,6 @@
 #ifdef _WIN32
 #include <Windows.h>
 #else
-// 非 Windows 环境需用其他库（如 iconv），此处仅展示 Windows 实现
 #endif
 
 
